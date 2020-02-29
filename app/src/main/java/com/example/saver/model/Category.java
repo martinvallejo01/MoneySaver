@@ -70,12 +70,20 @@ public class Category {
                 '}';
     }
 
-    Boolean addExpense(Expense e) {
+    public Boolean addExpense(Expense e) {
         if (e.getAmount() > bound) {
             return false;
         }
         expenseList.add(e);
         Collections.sort(expenseList);
         return true;
+    }
+
+    public Double total() {
+        if (expenseList.size() == 0)
+            return 0.0;
+        return expenseList.stream()
+                .map(Expense::getAmount)
+                .reduce(0.0, Double::sum);
     }
 }
