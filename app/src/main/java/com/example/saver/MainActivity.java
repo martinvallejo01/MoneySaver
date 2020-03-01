@@ -52,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onPause() {
+        saveChanges();
+        super.onPause();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TEXT_REQUEST) {
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 categoryList.remove(index);
                 categoryList.add(index, updatedCategory);
                 category_recyclerView.getAdapter().notifyItemChanged(index);
+                saveChanges();
             }
         }
     }
