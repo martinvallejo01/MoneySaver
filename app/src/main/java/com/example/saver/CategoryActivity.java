@@ -39,6 +39,10 @@ public class CategoryActivity extends AppCompatActivity {
         loadData();
         setTitle("Category " + category.getName());
 
+        description_editText = findViewById(R.id.description_editText);
+        amount_editText = findViewById(R.id.amount_editText);
+        delete_button = findViewById(R.id.delete_button);
+
         datePicker_textView = findViewById(R.id.datePicker_textView);
         dateSetListener = this::onDaySet;
 
@@ -49,7 +53,9 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     public void onClearTap(View view) {
-        /* TODO */
+        datePicker_textView.setText(R.string.pick_date);
+        description_editText.getText().clear();
+        amount_editText.getText().clear();
     }
 
     public void onDeleteTap(View view) {
