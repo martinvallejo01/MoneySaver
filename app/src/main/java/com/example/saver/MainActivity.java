@@ -23,6 +23,7 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    public static final int TEXT_REQUEST = 1;
 
     private LinkedList<Category> categoryList;
     private RecyclerView category_recyclerView;
@@ -39,6 +40,17 @@ public class MainActivity extends AppCompatActivity {
         categoryListAdapter = new CategoryListAdapter(this, categoryList);
         category_recyclerView.setAdapter(categoryListAdapter);
         category_recyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TEXT_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                String reply = data.getStringExtra(CategoryActivity.EXTRA_CATEGORY_REPLY);
+                Log.d(LOG_TAG, reply);
+            }
+        }
     }
 
     public void onAddNewCategoryTap(View view) {
@@ -109,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 String data = gson.toJson(category, Category.class);
                 Intent intent = new Intent(v.getContext(), CategoryActivity.class);
                 intent.putExtra(EXTRA_CATEGORY, data);
-                Log.d(LOG_TAG, data);
-                startActivity(intent);
+                startActivityForResult(intent, TEXT_REQUEST);
             }
         }
     }

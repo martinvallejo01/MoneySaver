@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,7 +26,9 @@ import java.util.Calendar;
 import java.util.LinkedList;
 
 public class CategoryActivity extends AppCompatActivity {
+    public static final String EXTRA_CATEGORY_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_REPLY";
     public static final String LOG_TAG = CategoryActivity.class.getSimpleName();
+    private Gson gson = new Gson();
     private Category category;
 
     private ExpenseListAdapter expenseListAdapter;
@@ -63,6 +66,12 @@ public class CategoryActivity extends AppCompatActivity {
         amount_editText.getText().clear();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
+    }
+
     public void onDeleteTap(View view) {
         /* TODO */
     }
@@ -73,7 +82,11 @@ public class CategoryActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        /* TODO */
+        String reply = gson.toJson(category);
+        Intent replyIntent = new Intent();
+        replyIntent.putExtra(EXTRA_CATEGORY_REPLY, reply);
+        setResult(RESULT_OK, replyIntent);
+        Log.d(LOG_TAG, reply);
         super.onBackPressed();
         finish();
     }
@@ -81,10 +94,7 @@ public class CategoryActivity extends AppCompatActivity {
     private void loadData() {
         Intent intent = getIntent();
         String data = intent.getStringExtra(MainActivity.CategoryListAdapter.EXTRA_CATEGORY);
-        Log.d(LOG_TAG, data);
-        Gson gson = new Gson();
         category = gson.fromJson(data, Category.class);
-        Log.d(LOG_TAG, category.toString());
     }
 
     public void onDatePickerTap(View view) {
