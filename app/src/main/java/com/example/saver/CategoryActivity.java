@@ -35,7 +35,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     private ExpenseListAdapter expenseListAdapter;
 
-    private TextView datePicker_textView;
+    private TextView datePicker_textView, warning_textView;
     private EditText description_editText, amount_editText;
     private Button delete_button;
     private RecyclerView expenses_recyclerView;
@@ -54,6 +54,7 @@ public class CategoryActivity extends AppCompatActivity {
         description_editText = findViewById(R.id.description_editText);
         amount_editText = findViewById(R.id.amount_editText);
         delete_button = findViewById(R.id.delete_button);
+        warning_textView = findViewById(R.id.warning_textView);
 
         datePicker_textView = findViewById(R.id.datePicker_textView);
         dateSetListener = this::onDaySet;
@@ -70,6 +71,7 @@ public class CategoryActivity extends AppCompatActivity {
         amount_editText.getText().clear();
         indexBeingEdited = -1;
         delete_button.setEnabled(false);
+        warning_textView.setVisibility(View.INVISIBLE);
     }
 
     public void onDeleteTap(View view) {
@@ -200,6 +202,7 @@ public class CategoryActivity extends AppCompatActivity {
                 description_editText.setText(selected.getDescription());
                 amount_editText.setText(selected.getAmount().toString());
                 delete_button.setEnabled(true);
+                warning_textView.setVisibility(View.VISIBLE);
             }
         }
     }
