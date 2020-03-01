@@ -52,7 +52,7 @@ public class CategoryActivity extends AppCompatActivity {
         dateSetListener = this::onDaySet;
 
         expenses_recyclerView = findViewById(R.id.expenses_recyclerView);
-        expenseListAdapter = new ExpenseListAdapter(this, category.getExpenseList());
+        expenseListAdapter = new ExpenseListAdapter(this);
         expenses_recyclerView.setAdapter(expenseListAdapter);
         expenses_recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -104,12 +104,10 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     public class ExpenseListAdapter extends RecyclerView.Adapter<ExpenseListAdapter.ExpenseViewHolder> {
-        private final LinkedList<Expense> expenseList;
         private LayoutInflater inflater;
 
-        public ExpenseListAdapter(Context context, LinkedList<Expense> expenseList) {
+        public ExpenseListAdapter(Context context) {
             inflater = LayoutInflater.from(context);
-            this.expenseList = expenseList;
         }
 
         @Override
@@ -120,7 +118,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(ExpenseViewHolder holder, int position) {
-            Expense current = expenseList.get(position);
+            Expense current = category.getExpenseList().get(position);
             holder.amount_textView.setText(String.format("$%s", current.getAmount().toString()));
             holder.date_textView.setText(current.getDate().toString());
             holder.description_textView.setText(current.getDescription());
@@ -128,7 +126,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return expenseList.size();
+            return category.getExpenseList().size();
         }
 
         class ExpenseViewHolder extends RecyclerView.ViewHolder {
