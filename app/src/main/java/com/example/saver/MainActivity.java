@@ -43,12 +43,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TEXT_REQUEST) {
             if (resultCode == RESULT_OK) {
                 String reply = data.getStringExtra(CategoryActivity.EXTRA_CATEGORY_REPLY);
-                Log.d(LOG_TAG, reply);
+                int num = data.getIntExtra(CategoryActivity.EXTRA_CATEGORY_INDEX_REPLY, -1);
             }
         }
     }
@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder> {
         public static final String EXTRA_CATEGORY = "com.example.saver.extra.CATEGORY";
+        public static final String EXTRA_CATEGORY_INDEX = "com.example.saver.extra.CATEGORY_INDEX";
 
         private final LinkedList<Category> categoryList;
 
@@ -117,11 +118,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Category category = categoryList.get(getLayoutPosition());
+                int index = getLayoutPosition();
+                Category category = categoryList.get(index);
                 Gson gson = new Gson();
                 String data = gson.toJson(category, Category.class);
                 Intent intent = new Intent(v.getContext(), CategoryActivity.class);
                 intent.putExtra(EXTRA_CATEGORY, data);
+                intent.putExtra(EXTRA_CATEGORY_INDEX, index);
                 startActivityForResult(intent, TEXT_REQUEST);
             }
         }

@@ -29,6 +29,7 @@ import java.util.Calendar;
 
 public class CategoryActivity extends AppCompatActivity {
     public static final String EXTRA_CATEGORY_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_REPLY";
+    public static final String EXTRA_CATEGORY_INDEX_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_INDEX_REPLY";
     public static final String LOG_TAG = CategoryActivity.class.getSimpleName();
     private Gson gson = new Gson();
     private Category category;
@@ -43,6 +44,7 @@ public class CategoryActivity extends AppCompatActivity {
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
     private int indexBeingEdited = -1;
+    private int categoryIndex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,8 +129,8 @@ public class CategoryActivity extends AppCompatActivity {
         String reply = gson.toJson(category);
         Intent replyIntent = new Intent();
         replyIntent.putExtra(EXTRA_CATEGORY_REPLY, reply);
+        replyIntent.putExtra(EXTRA_CATEGORY_INDEX_REPLY, categoryIndex);
         setResult(RESULT_OK, replyIntent);
-        Log.d(LOG_TAG, reply);
         super.onBackPressed();
         finish();
     }
@@ -136,6 +138,7 @@ public class CategoryActivity extends AppCompatActivity {
     private void loadData() {
         Intent intent = getIntent();
         String data = intent.getStringExtra(MainActivity.CategoryListAdapter.EXTRA_CATEGORY);
+        categoryIndex = intent.getIntExtra(MainActivity.CategoryListAdapter.EXTRA_CATEGORY_INDEX, -1);
         category = gson.fromJson(data, Category.class);
     }
 
