@@ -41,15 +41,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        categoryList = new LinkedList<>();
 
-        createRandomData();
+        // createRandomData();
         category_recyclerView = findViewById(R.id.category_recyclerView);
         categoryListAdapter = new CategoryListAdapter(this);
         category_recyclerView.setAdapter(categoryListAdapter);
         category_recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        preferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        loadData();
     }
 
     @Override
@@ -69,15 +68,14 @@ public class MainActivity extends AppCompatActivity {
                 categoryList.remove(index);
                 categoryList.add(index, updatedCategory);
                 category_recyclerView.getAdapter().notifyItemChanged(index);
-                saveChanges();
             }
             if (requestCode == NAME_AND_BOUND_REQUEST) {
                 String name = data.getStringExtra(CreateCategoryActivity.EXTRA_NAME_REPLY);
                 Double bound = data.getDoubleExtra(CreateCategoryActivity.EXTRA_BOUND_REPLY, 0.0);
                 categoryList.add(new Category(name, bound));
                 category_recyclerView.getAdapter().notifyDataSetChanged();
-                saveChanges();
             }
+            saveChanges();
         }
     }
 
