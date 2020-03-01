@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
             Category current = categoryList.get(position);
             holder.categoryTotal_textView.setText(String.format("$%s", current.total().toString()));
             holder.categoryName_textView.setText(current.getName());
+            holder.categoryBound_textView.setText(String.format("Bound: $%s", current.getBound().toString()));
 
         }
 
@@ -101,8 +102,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-            public final TextView categoryName_textView;
-            public final TextView categoryTotal_textView;
+            public final TextView categoryName_textView, categoryBound_textView, categoryTotal_textView;
 
             final CategoryListAdapter adapter;
 
@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 this.adapter = adapter;
                 categoryName_textView = itemView.findViewById(R.id.categoryName_textView);
                 categoryTotal_textView = itemView.findViewById(R.id.categoryTotal_textView);
+                categoryBound_textView = itemView.findViewById(R.id.categoryBound_textView);
                 itemView.setOnClickListener(this::onClick);
             }
 
