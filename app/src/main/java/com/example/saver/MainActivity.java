@@ -24,8 +24,11 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
-    private static final String PREFERENCE_KEY = "com.example.saver.MainActivity.KEY";
-    private static final String sharedPrefFile = "com.example.saver.SHARED_PREFS";
+    public static final String
+            PREFERENCE_KEY = "com.example.saver.MainActivity.KEY",
+            sharedPrefFile = "com.example.saver.SHARED_PREFS",
+            EXTRA_CATEGORY_NAME = "com.example.saver.extra.EXTRA_CATEGORY_NAME",
+            EXTRA_CATEGORY_BOUND = "com.example.saver.extra.EXTRA_CATEGORY_BOUND";
     public static final int TEXT_REQUEST = 1;
     public static final int NAME_AND_BOUND_REQUEST = 2;
 
@@ -70,10 +73,26 @@ public class MainActivity extends AppCompatActivity {
                 category_recyclerView.getAdapter().notifyItemChanged(index);
             }
             if (requestCode == NAME_AND_BOUND_REQUEST) {
-                String name = data.getStringExtra(CreateCategoryActivity.EXTRA_NAME_REPLY);
-                Double bound = data.getDoubleExtra(CreateCategoryActivity.EXTRA_BOUND_REPLY, 0.0);
-                categoryList.add(new Category(name, bound));
-                category_recyclerView.getAdapter().notifyDataSetChanged();
+                Boolean isDeletable = data.getBooleanExtra(CreateCategoryActivity.EXTRA_isDELETABLE_REPLY, false);
+                if (isDeletable) {
+                    Boolean isDeleted = data.getBooleanExtra(CreateCategoryActivity.EXTRA_DELETED_REPLY, false);
+                    int index = data.getIntExtra(CreateCategoryActivity.EXTRA_INDEX_REPLY, -1);
+                    if (isDeleted) {
+                        categoryList.remove(index);
+                        category_recyclerView.getAdapter().notifyItemRemoved(index);
+                    } else {
+                        String name = data.getStringExtra(CreateCategoryActivity.EXTRA_NAME_REPLY);
+                        Double bound = data.getDoubleExtra(CreateCategoryActivity.EXTRA_BOUND_REPLY, -1);
+                        categoryList.get(index).setName(name);
+                        categoryList.get(index).setBound(bound);
+                        category_recyclerView.getAdapter().notifyDataSetChanged();
+                    }
+                } else {
+                    String name = data.getStringExtra(CreateCategoryActivity.EXTRA_NAME_REPLY);
+                    Double bound = data.getDoubleExtra(CreateCategoryActivity.EXTRA_BOUND_REPLY, 0.0);
+                    categoryList.add(new Category(name, bound));
+                    category_recyclerView.getAdapter().notifyDataSetChanged();
+                }
             }
             saveChanges();
         }
@@ -145,18 +164,19 @@ public class MainActivity extends AppCompatActivity {
             return categoryList.size();
         }
 
-        class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
             public final TextView categoryName_textView, categoryBound_textView, categoryTotal_textView;
 
             final CategoryListAdapter adapter;
 
-            public  CategoryViewHolder(View itemView, CategoryListAdapter adapter) {
+            public CategoryViewHolder(View itemView, CategoryListAdapter adapter) {
                 super(itemView);
                 this.adapter = adapter;
                 categoryName_textView = itemView.findViewById(R.id.categoryName_textView);
                 categoryTotal_textView = itemView.findViewById(R.id.categoryTotal_textView);
                 categoryBound_textView = itemView.findViewById(R.id.categoryBound_textView);
                 itemView.setOnClickListener(this::onClick);
+                itemView.setOnLongClickListener(this::onLongClick);
             }
 
             @Override
@@ -169,6 +189,17 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(EXTRA_CATEGORY, data);
                 intent.putExtra(EXTRA_CATEGORY_INDEX, index);
                 startActivityForResult(intent, TEXT_REQUEST);
+            }
+
+            @Override
+            public boolean onLongClick(View v) {
+                int index = getLayoutPosition();
+                Intent intent = new Intent(v.getContext(), CreateCategoryActivity.class);
+                intent.putExtra(MainActivity.EXTRA_CATEGORY_NAME, categoryList.get(index).getName());
+                intent.putExtra(MainActivity.EXTRA_CATEGORY_BOUND, categoryList.get(index).getBound());
+                intent.putExtra(EXTRA_CATEGORY_INDEX, index);
+                startActivityForResult(intent, NAME_AND_BOUND_REQUEST);
+                return true;
             }
         }
     }
