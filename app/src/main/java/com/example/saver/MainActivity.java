@@ -57,7 +57,11 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == TEXT_REQUEST) {
             if (resultCode == RESULT_OK) {
                 String reply = data.getStringExtra(CategoryActivity.EXTRA_CATEGORY_REPLY);
-                int num = data.getIntExtra(CategoryActivity.EXTRA_CATEGORY_INDEX_REPLY, -1);
+                int index = data.getIntExtra(CategoryActivity.EXTRA_CATEGORY_INDEX_REPLY, -1);
+                Category updatedCategory = gson.fromJson(reply, Category.class);
+                categoryList.remove(index);
+                categoryList.add(index, updatedCategory);
+                category_recyclerView.getAdapter().notifyItemChanged(index);
             }
         }
     }
