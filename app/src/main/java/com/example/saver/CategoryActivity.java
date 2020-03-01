@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -14,10 +16,12 @@ import android.widget.TextView;
 
 import com.example.saver.model.Category;
 import com.example.saver.model.Expense;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 
 public class CategoryActivity extends AppCompatActivity {
+    public static final String LOG_TAG = CategoryActivity.class.getSimpleName();
     private Category category;
 
     private ExpenseListAdapter expenseListAdapter;
@@ -65,11 +69,12 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void loadData() {
-        category = new Category("Food", 52.36);
-        Expense expense1 = new Expense("Banana", 17.25);
-        Expense expense2 = new Expense("Candy", 25.00);
-        category.addExpense(expense1);
-        category.addExpense(expense2);
+        Intent intent = getIntent();
+        String data = intent.getStringExtra(CategoryListAdapter.EXTRA_CATEGORY);
+        Log.d(LOG_TAG, data);
+        Gson gson = new Gson();
+        category = gson.fromJson(data, Category.class);
+        Log.d(LOG_TAG, category.toString());
     }
 
     public void onDatePickerTap(View view) {
