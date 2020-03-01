@@ -75,7 +75,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     private void loadData() {
         Intent intent = getIntent();
-        String data = intent.getStringExtra(CategoryListAdapter.EXTRA_CATEGORY);
+        String data = intent.getStringExtra(MainActivity.CategoryListAdapter.EXTRA_CATEGORY);
         Log.d(LOG_TAG, data);
         Gson gson = new Gson();
         category = gson.fromJson(data, Category.class);
