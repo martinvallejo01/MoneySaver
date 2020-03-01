@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,7 +24,13 @@ import java.util.LinkedList;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String PREFERENCE_KEY = "com.example.saver.MainActivity.KEY";
+    private static final String sharedPrefFile = "com.example.saver.SHARED_PREFS";
     public static final int TEXT_REQUEST = 1;
+
+    private SharedPreferences preferences;
+
+    private Gson gson = new Gson();
 
     private LinkedList<Category> categoryList;
     private RecyclerView category_recyclerView;
@@ -40,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         categoryListAdapter = new CategoryListAdapter(this, categoryList);
         category_recyclerView.setAdapter(categoryListAdapter);
         category_recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        preferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
     }
 
     @Override
@@ -54,8 +63,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddNewCategoryTap(View view) {
-        Intent intent = new Intent(this, CategoryActivity.class);
-        startActivity(intent);
+        preferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String dataToLoad = preferences.getString(PREFERENCE_KEY, "null");
+        Log.d(LOG_TAG, dataToLoad);
+        Log.d(LOG_TAG, "Saving Changes");
+        saveChanges();
+        dataToLoad = preferences.getString(PREFERENCE_KEY, null);
+        Category[] categories = gson.fromJson(dataToLoad, Category[].class);
+        Log.d(LOG_TAG, categories[0].toString());
     }
 
     private void createRandomData() {
@@ -67,6 +82,26 @@ public class MainActivity extends AppCompatActivity {
         category.addExpense(e1);
         category.addExpense(e2);
         categoryList.add(category);
+    }
+
+    private void saveChanges() {
+        String dataToSave = gson.toJson(categoryList.toArray(), Category[].class);
+        SharedPreferences.Editor preferenceEditor = preferences.edit();
+        preferenceEditor.putString(PREFERENCE_KEY, dataToSave);
+        preferenceEditor.apply();
+    }
+
+    private void loadData() {
+        preferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
+        String dataToLoad = preferences.getString(PREFERENCE_KEY, null);
+        categoryList = new LinkedList<>();
+        if (dataToLoad != null) {
+            Category[] categories = gson.fromJson(dataToLoad, Category[].class);
+            for (Category c : categories)
+                categoryList.add(c);
+        }
+        else
+            categoryList = new LinkedList<>();
     }
 
     public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryViewHolder> {
