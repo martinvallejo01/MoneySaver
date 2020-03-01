@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Money Saver</string>
+    <string name="date">Date</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="description">Description</string>
+    <string name="amount">Amount</string>
+    <string name="delete">Delete</string>
+    <string name="clear">Clear</string>
+    <string name="submit">Submit</string>
+    <string name="expenses">Expenses</string>
 </resources>
