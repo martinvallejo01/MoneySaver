@@ -31,7 +31,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     @Override
     public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = categoryList.get(position);
-        holder.categoryTotal_textView.setText(current.total().toString());
+        holder.categoryTotal_textView.setText("$" + current.total().toString());
         holder.categoryName_textView.setText(current.getName());
 
     }

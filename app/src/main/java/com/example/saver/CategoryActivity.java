@@ -1,6 +1,7 @@
 package com.example.saver;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
@@ -19,6 +20,8 @@ import java.util.Calendar;
 public class CategoryActivity extends AppCompatActivity {
     private Category category;
 
+    private ExpenseListAdapter expenseListAdapter;
+
     private TextView datePicker_textView;
     private EditText description_editText, amount_editText;
     private Button delete_button;
@@ -35,6 +38,11 @@ public class CategoryActivity extends AppCompatActivity {
 
         datePicker_textView = findViewById(R.id.datePicker_textView);
         dateSetListener = this::onDaySet;
+
+        expenses_recyclerView = findViewById(R.id.expenses_recyclerView);
+        expenseListAdapter = new ExpenseListAdapter(this, category.getExpenseList());
+        expenses_recyclerView.setAdapter(expenseListAdapter);
+        expenses_recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     public void onClearTap(View view) {
