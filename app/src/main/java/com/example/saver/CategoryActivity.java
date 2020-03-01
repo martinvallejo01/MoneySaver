@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.LinkedList;
 
 
 public class CategoryActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class CategoryActivity extends AppCompatActivity {
 
     private ExpenseListAdapter expenseListAdapter;
 
-    private TextView datePicker_textView, warning_textView;
+    private TextView datePicker_textView, warning_textView, total_textView;
     private EditText description_editText, amount_editText;
     private Button delete_button;
     private RecyclerView expenses_recyclerView;
@@ -57,6 +58,7 @@ public class CategoryActivity extends AppCompatActivity {
         amount_editText = findViewById(R.id.amount_editText);
         delete_button = findViewById(R.id.delete_button);
         warning_textView = findViewById(R.id.warning_textView);
+        total_textView = findViewById(R.id.total_textView);
 
         datePicker_textView = findViewById(R.id.datePicker_textView);
         dateSetListener = this::onDaySet;
@@ -65,6 +67,7 @@ public class CategoryActivity extends AppCompatActivity {
         expenseListAdapter = new ExpenseListAdapter(this);
         expenses_recyclerView.setAdapter(expenseListAdapter);
         expenses_recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        total_textView.setText(String.format("$%s", category.total().toString()));
     }
 
     public void onClearTap(View view) {
@@ -74,12 +77,14 @@ public class CategoryActivity extends AppCompatActivity {
         indexBeingEdited = -1;
         delete_button.setEnabled(false);
         warning_textView.setVisibility(View.INVISIBLE);
+        expenses_recyclerView.getAdapter().notifyDataSetChanged();
+        total_textView.setText(String.format("$%s", category.total().toString()));
+
     }
 
     public void onDeleteTap(View view) {
         String deletedExpenseName = category.getExpenseList().get(indexBeingEdited).getDescription();
         category.getExpenseList().remove(indexBeingEdited);
-        expenses_recyclerView.getAdapter().notifyDataSetChanged();
         onClearTap(view);
         Snackbar.make(view, "Bye bye " + deletedExpenseName, Snackbar.LENGTH_LONG).show();
     }
@@ -112,10 +117,14 @@ public class CategoryActivity extends AppCompatActivity {
             }
             else {
                 onClearTap(view);
-                expenses_recyclerView.getAdapter().notifyDataSetChanged();
             }
         }
 
+    }
+
+    public void onClearAllTap(View view) {
+        category.setExpenseList(new LinkedList<>());
+        onClearTap(view);
     }
 
     @Override

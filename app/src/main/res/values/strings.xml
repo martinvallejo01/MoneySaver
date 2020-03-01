@@ -10,4 +10,8 @@
     <string name="expenses">Expenses</string>
     <string name="category_name">Category Name</string>
     <string name="category_bound">Category Bound</string>
+    <string name="warning_you_are_editing_a_expense">Warning! You are editing a expense</string>
+    <string name="total">Total:</string>
+    <string name="_0_0">$0.0</string>
+    <string name="clear_all">Clear All</string>
 </resources>

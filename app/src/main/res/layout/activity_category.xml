@@ -137,7 +137,7 @@
         android:id="@+id/expenses_recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/expenses_textView" />
@@ -147,7 +147,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:padding="16dp"
-        android:text="Warning! You are editing a expense"
+        android:text="@string/warning_you_are_editing_a_expense"
         android:textAlignment="textEnd"
         android:textColor="#C62828"
         android:visibility="invisible"
@@ -155,4 +155,33 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/expenses_textView"
         app:layout_constraintTop_toBottomOf="@+id/delete_button" />
+
+    <TextView
+        android:id="@+id/totalTitle_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/total"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/total_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/_0_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/totalTitle_textView" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
+        android:onClick="onClearAllTap"
+        android:text="@string/clear_all"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
