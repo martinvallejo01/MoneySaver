@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.saver.model.Category;
-import com.example.saver.model.Expense;
 import com.google.gson.Gson;
 
 import java.util.Calendar;
