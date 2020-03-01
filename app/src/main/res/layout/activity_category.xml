@@ -90,7 +90,7 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/delete_button"
+        android:id="@+id/deleteCategory_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -108,7 +108,7 @@
         android:layout_marginTop="16dp"
         android:onClick="onClearTap"
         android:text="@string/clear"
-        app:layout_constraintEnd_toStartOf="@+id/delete_button"
+        app:layout_constraintEnd_toStartOf="@+id/deleteCategory_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
@@ -120,7 +120,7 @@
         android:onClick="onSubmitTap"
         android:text="@string/submit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/delete_button"
+        app:layout_constraintStart_toEndOf="@+id/deleteCategory_button"
         app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
 
     <TextView
@@ -131,7 +131,7 @@
         android:text="@string/expenses"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/delete_button" />
+        app:layout_constraintTop_toBottomOf="@+id/deleteCategory_button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/expenses_recyclerView"
@@ -154,7 +154,7 @@
         app:layout_constraintBottom_toTopOf="@+id/expenses_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/expenses_textView"
-        app:layout_constraintTop_toBottomOf="@+id/delete_button" />
+        app:layout_constraintTop_toBottomOf="@+id/deleteCategory_button" />
 
     <TextView
         android:id="@+id/totalTitle_textView"

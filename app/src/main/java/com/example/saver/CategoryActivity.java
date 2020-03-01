@@ -8,7 +8,6 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,8 +28,9 @@ import java.util.LinkedList;
 
 
 public class CategoryActivity extends AppCompatActivity {
-    public static final String EXTRA_CATEGORY_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_REPLY";
-    public static final String EXTRA_CATEGORY_INDEX_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_INDEX_REPLY";
+    public static final String
+            EXTRA_CATEGORY_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_REPLY",
+            EXTRA_CATEGORY_INDEX_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_INDEX_REPLY";
     public static final String LOG_TAG = CategoryActivity.class.getSimpleName();
     private Gson gson = new Gson();
     private Category category;
@@ -56,7 +56,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         description_editText = findViewById(R.id.description_editText);
         amount_editText = findViewById(R.id.amount_editText);
-        delete_button = findViewById(R.id.delete_button);
+        delete_button = findViewById(R.id.deleteCategory_button);
         warning_textView = findViewById(R.id.warning_textView);
         total_textView = findViewById(R.id.total_textView);
 
