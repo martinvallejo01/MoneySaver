@@ -51,7 +51,7 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         loadData();
-        setTitle("Category " + category.getName());
+        setTitle(category.getName() + " Category");
 
         description_editText = findViewById(R.id.description_editText);
         amount_editText = findViewById(R.id.amount_editText);
