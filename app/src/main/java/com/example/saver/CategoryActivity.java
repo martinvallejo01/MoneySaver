@@ -69,10 +69,15 @@ public class CategoryActivity extends AppCompatActivity {
         description_editText.getText().clear();
         amount_editText.getText().clear();
         indexBeingEdited = -1;
+        delete_button.setEnabled(false);
     }
 
     public void onDeleteTap(View view) {
-        /* TODO */
+        String deletedExpenseName = category.getExpenseList().get(indexBeingEdited).getDescription();
+        category.getExpenseList().remove(indexBeingEdited);
+        expenses_recyclerView.getAdapter().notifyDataSetChanged();
+        onClearTap(view);
+        Snackbar.make(view, "Bye bye " + deletedExpenseName, Snackbar.LENGTH_LONG).show();
     }
 
     public void onSubmitTap(View view) {
@@ -194,6 +199,7 @@ public class CategoryActivity extends AppCompatActivity {
                 datePicker_textView.setText(selected.getDate().toString());
                 description_editText.setText(selected.getDescription());
                 amount_editText.setText(selected.getAmount().toString());
+                delete_button.setEnabled(true);
             }
         }
     }
