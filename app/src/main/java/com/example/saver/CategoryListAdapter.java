@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.saver.model.Category;
@@ -23,15 +22,14 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         this.categoryList = categoryList;
     }
 
-    @NonNull
     @Override
-    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = inflater.inflate(R.layout.categorylist_item, parent, false);
         return new CategoryViewHolder(itemView, this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+    public void onBindViewHolder(CategoryViewHolder holder, int position) {
         Category current = categoryList.get(position);
         holder.categoryTotal_textView.setText(current.total().toString());
         holder.categoryName_textView.setText(current.getName());
