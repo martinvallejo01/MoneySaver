@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,9 +38,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddNewCategoryTap(View view) {
-        Log.d(LOG_TAG, "Button Clicked");
-        Gson gson = new Gson();
-        Log.d(LOG_TAG, gson.toJson(categoryList.get(2)));
+        Intent intent = new Intent(this, CategoryActivity.class);
+        startActivity(intent);
     }
 
     private void createRandomData() {

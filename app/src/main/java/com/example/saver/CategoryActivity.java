@@ -1,16 +1,82 @@
 package com.example.saver;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.saver.model.Category;
+import com.example.saver.model.Expense;
+
+import java.util.Calendar;
 
 public class CategoryActivity extends AppCompatActivity {
+    private Category category;
+
+    private TextView datePicker_textView;
+    private EditText description_editText, amount_editText;
+    private Button delete_button;
+    private RecyclerView expenses_recyclerView;
+
+    private DatePickerDialog.OnDateSetListener dateSetListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        loadData();
+        setTitle("Category " + category.getName());
+
+        datePicker_textView = findViewById(R.id.datePicker_textView);
+        dateSetListener = this::onDaySet;
+    }
+
+    public void onClearTap(View view) {
+        /* TODO */
+    }
+
+    public void onDeleteTap(View view) {
+        /* TODO */
+    }
+
+    public void onSubmitTap(View view) {
+        /* TODO */
+    }
+
+    @Override
+    public void onBackPressed() {
+        /* TODO */
+        super.onBackPressed();
+        finish();
+    }
+
+    private void loadData() {
+        category = new Category("Food", 52.36);
+        Expense expense1 = new Expense("Banana", 17.25);
+        Expense expense2 = new Expense("Candy", 25.00);
+        category.addExpense(expense1);
+        category.addExpense(expense2);
+    }
+
+    public void onDatePickerTap(View view) {
+        Calendar cal = Calendar.getInstance();
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int month = cal.get(Calendar.MONTH);
+        int year = cal.get(Calendar.YEAR);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this, android.R.style.Theme_Material_Light_Dialog,
+                dateSetListener, year, month, day);
+        datePickerDialog.show();
+    }
+
+    private void onDaySet(DatePicker view, int year, int month, int day) {
+        String date = year + "/" + (month + 1) + "/" + day;
+        datePicker_textView.setText(date);
     }
 }
