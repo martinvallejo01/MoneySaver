@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         createRandomData();
         category_recyclerView = findViewById(R.id.category_recyclerView);
-        categoryListAdapter = new CategoryListAdapter(this, categoryList);
+        categoryListAdapter = new CategoryListAdapter(this);
         category_recyclerView.setAdapter(categoryListAdapter);
         category_recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -108,13 +108,10 @@ public class MainActivity extends AppCompatActivity {
         public static final String EXTRA_CATEGORY = "com.example.saver.extra.CATEGORY";
         public static final String EXTRA_CATEGORY_INDEX = "com.example.saver.extra.CATEGORY_INDEX";
 
-        private final LinkedList<Category> categoryList;
-
         private LayoutInflater inflater;
 
-        public CategoryListAdapter(Context context, LinkedList<Category> categoryList) {
+        public CategoryListAdapter(Context context) {
             this.inflater = LayoutInflater.from(context);
-            this.categoryList = categoryList;
         }
 
         @Override
