@@ -79,6 +79,15 @@ public class Category {
         return true;
     }
 
+    public Boolean replaceExpense(Expense e, int index) {
+        if (e.getAmount() > bound) {
+            return false;
+        }
+        expenseList.remove(index);
+        addExpense(e);
+        return true;
+    }
+
     public Double total() {
         if (expenseList.size() == 0)
             return 0.0;
