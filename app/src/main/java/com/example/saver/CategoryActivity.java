@@ -40,6 +40,8 @@ public class CategoryActivity extends AppCompatActivity {
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
+    private int indexBeingEdited = -1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +66,7 @@ public class CategoryActivity extends AppCompatActivity {
         datePicker_textView.setText(R.string.pick_date);
         description_editText.getText().clear();
         amount_editText.getText().clear();
+        indexBeingEdited = -1;
     }
 
     @Override
@@ -139,7 +142,7 @@ public class CategoryActivity extends AppCompatActivity {
             return category.getExpenseList().size();
         }
 
-        class ExpenseViewHolder extends RecyclerView.ViewHolder {
+        class ExpenseViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             TextView description_textView, date_textView, amount_textView;
             final ExpenseListAdapter adapter;
 
@@ -149,6 +152,16 @@ public class CategoryActivity extends AppCompatActivity {
                 date_textView = itemView.findViewById(R.id.dateList_textView);
                 amount_textView = itemView.findViewById(R.id.amountList_textView);
                 this.adapter = adapter;
+                itemView.setOnClickListener(this::onClick);
+            }
+
+            @Override
+            public void onClick(View v) {
+                indexBeingEdited = getLayoutPosition();
+                Expense selected = category.getExpenseList().get(indexBeingEdited);
+                datePicker_textView.setText(selected.getDate().toString());
+                description_editText.setText(selected.getDescription());
+                amount_editText.setText(selected.getAmount().toString());
             }
         }
     }
