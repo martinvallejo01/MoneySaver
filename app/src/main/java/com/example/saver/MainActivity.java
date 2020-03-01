@@ -5,15 +5,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.saver.model.Category;
 import com.example.saver.model.Expense;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
 
 import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
     private LinkedList<Category> categoryList;
     private RecyclerView category_recyclerView;
     private CategoryListAdapter categoryListAdapter;
@@ -32,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onAddNewCategoryTap(View view) {
-        Snackbar.make(view, Integer.toString(categoryList.size()),Snackbar.LENGTH_LONG).show();
+        Log.d(LOG_TAG, "Button Clicked");
+        Gson gson = new Gson();
+        Log.d(LOG_TAG, gson.toJson(categoryList.get(2)));
     }
 
     private void createRandomData() {
