@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String PREFERENCE_KEY = "com.example.saver.MainActivity.KEY";
     private static final String sharedPrefFile = "com.example.saver.SHARED_PREFS";
     public static final int TEXT_REQUEST = 1;
+    public static final int NAME_AND_BOUND_REQUEST = 2;
 
     private SharedPreferences preferences;
 
@@ -60,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TEXT_REQUEST) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == TEXT_REQUEST) {
                 String reply = data.getStringExtra(CategoryActivity.EXTRA_CATEGORY_REPLY);
                 int index = data.getIntExtra(CategoryActivity.EXTRA_CATEGORY_INDEX_REPLY, -1);
                 Category updatedCategory = gson.fromJson(reply, Category.class);
@@ -70,18 +71,19 @@ public class MainActivity extends AppCompatActivity {
                 category_recyclerView.getAdapter().notifyItemChanged(index);
                 saveChanges();
             }
+            if (requestCode == NAME_AND_BOUND_REQUEST) {
+                String name = data.getStringExtra(CreateCategoryActivity.EXTRA_NAME_REPLY);
+                Double bound = data.getDoubleExtra(CreateCategoryActivity.EXTRA_BOUND_REPLY, 0.0);
+                categoryList.add(new Category(name, bound));
+                category_recyclerView.getAdapter().notifyDataSetChanged();
+                saveChanges();
+            }
         }
     }
 
     public void onAddNewCategoryTap(View view) {
-        preferences = getSharedPreferences(sharedPrefFile, MODE_PRIVATE);
-        String dataToLoad = preferences.getString(PREFERENCE_KEY, "null");
-        Log.d(LOG_TAG, dataToLoad);
-        Log.d(LOG_TAG, "Saving Changes");
-        saveChanges();
-        dataToLoad = preferences.getString(PREFERENCE_KEY, null);
-        Category[] categories = gson.fromJson(dataToLoad, Category[].class);
-        Log.d(LOG_TAG, categories[0].toString());
+        Intent intent = new Intent(this, CreateCategoryActivity.class);
+        startActivityForResult(intent, NAME_AND_BOUND_REQUEST);
     }
 
     private void createRandomData() {
