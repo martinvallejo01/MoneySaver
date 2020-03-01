@@ -20,10 +20,12 @@ import android.widget.TextView;
 
 import com.example.saver.model.Category;
 import com.example.saver.model.Expense;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.LinkedList;
+
 
 public class CategoryActivity extends AppCompatActivity {
     public static final String EXTRA_CATEGORY_REPLY = "com.example.saver.extra.EXTRA_CATEGORY_REPLY";
@@ -69,18 +71,48 @@ public class CategoryActivity extends AppCompatActivity {
         indexBeingEdited = -1;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        onBackPressed();
-        return true;
-    }
-
     public void onDeleteTap(View view) {
         /* TODO */
     }
 
     public void onSubmitTap(View view) {
-        /* TODO */
+        String newExpenseDescription = description_editText.getText().toString();
+        Double newExpenseAmount = Double.parseDouble(amount_editText.getText().toString());
+        String[] date = toString().split("-");
+        LocalDate newExpenseDate = LocalDate.now();
+        Expense newExpense = new Expense(newExpenseDate, newExpenseDescription, newExpenseAmount);
+        if (date.length == 3) {
+            newExpenseDate = LocalDate.of(
+                    Integer.parseInt(date[0]),
+                    Integer.parseInt(date[1] + 1),
+                    Integer.parseInt(date[2])
+            );
+        }
+        if (indexBeingEdited == -1) {
+            if (!category.addExpense(newExpense)) {
+                Snackbar.make(view, "Amount > Limit", Snackbar.LENGTH_LONG).show();
+            }
+            else {
+                onClearTap(view);
+                expenses_recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        }
+        else {
+            if (!category.replaceExpense(newExpense, indexBeingEdited)) {
+                Snackbar.make(view, "Amount > Limit", Snackbar.LENGTH_LONG).show();
+            }
+            else {
+                onClearTap(view);
+                expenses_recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -112,7 +144,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void onDaySet(DatePicker view, int year, int month, int day) {
-        String date = year + "/" + (month + 1) + "/" + day;
+        String date = year + "-" + (month + 1) + "-" + day;
         datePicker_textView.setText(date);
     }
 
